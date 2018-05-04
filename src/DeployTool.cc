@@ -21,6 +21,7 @@
 
 #include "Session.h"
 #include "DeployTool.h"
+#include "DeployGroupList.h"
 #include "DeployItemList.h"
 
 DeployTool::DeployTool() {
@@ -65,6 +66,9 @@ void DeployTool::handleInternalPath(const std::string &internalPath) {
       if (internalPath == "/search") {
         //contentStack_->addWidget( std::make_unique<SearchView>(session_) );
       }
+      else if (internalPath == "/deployGroupList") {
+        contentStack_->addWidget( std::make_unique<DeployGroupList>(session_) );
+      }
       else if (internalPath == "/deployItemList") {
         contentStack_->addWidget( std::make_unique<DeployItemList>(session_) );
       }
@@ -108,6 +112,7 @@ void DeployTool::createMenu() {
     menu_->setInternalBasePath("/");
 
     menu_->addItem("Search")->setPathComponent("search");
+    menu_->addItem("Deploy Groups")->setPathComponent("deployGroupList");
     menu_->addItem("Deploy Items")->setPathComponent("deployItemList");
     menu_->addItem("Change password")->setPathComponent("password");
 

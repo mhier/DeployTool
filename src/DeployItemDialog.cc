@@ -55,6 +55,15 @@ DeployItemDialog::DeployItemDialog(Updateable *owner, Session &session, Wt::Dbo:
     table->elementAt(0, 0)->addWidget(std::make_unique<WText>("Parameter name"));
     table->elementAt(0, 1)->addWidget(std::make_unique<WText>("Default value"));
 
+    auto &parameters = item_->parameters;
+    for(const auto &p : parameters) {
+      size_t row = v_paramNames.size()+1;
+      v_paramNames.push_back(table->elementAt(row, 0)->addWidget(std::make_unique<Wt::WLineEdit>()));
+      v_paramValues.push_back(table->elementAt(row, 1)->addWidget(std::make_unique<Wt::WLineEdit>()));
+      v_paramNames.back()->setText(p->key);
+      v_paramValues.back()->setText(p->value);
+    }
+
     auto w_addparam = grid->addWidget(std::make_unique<Wt::WPushButton>("Add parameter"), 4, 1);
     w_addparam->clicked().connect(this, [=] {
       size_t row = v_paramNames.size()+1;
@@ -90,8 +99,9 @@ DeployItemDialog::DeployItemDialog(Updateable *owner, Session &session, Wt::Dbo:
           p.modify()->value = v_paramValues[ip]->text().toUTF8();
         }
         else {
-          parameters.erase(p);
+          //parameters.erase(p);
         }
+        ++ip;
       }
       for(; ip < np; ++ip) {
         Wt::Dbo::ptr<KeyValue<DeployItem>> p(std::make_unique<KeyValue<DeployItem>>());
@@ -111,4 +121,3 @@ DeployItemDialog::DeployItemDialog(Updateable *owner, Session &session, Wt::Dbo:
     cancel->clicked().connect(this, [=] {hide();} );
 
 }
-
