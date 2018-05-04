@@ -15,6 +15,7 @@
 #include <Wt/WGridLayout.h>
 #include <Wt/Dbo/WtSqlTraits.h>
 #include <Wt/WComboBox.h>
+#include <Wt/WTable.h>
 
 DeployItemDialog::DeployItemDialog(Updateable *owner, Session &session, Wt::Dbo::ptr<DeployItem> item)
 : Wt::WDialog("Deploy Item"), owner_(owner), session_(session), item_(item)
@@ -38,8 +39,28 @@ DeployItemDialog::DeployItemDialog(Updateable *owner, Session &session, Wt::Dbo:
     auto w_name = grid->addWidget(std::make_unique<Wt::WLineEdit>(), 0, 1);
     w_name->setText(item_->name);
 
-    errorMessage = grid->addWidget(std::make_unique<Wt::WText>(), 8, 1);
-    errorMessage->hide();
+    grid->addWidget(std::make_unique<Wt::WText>("Source pattern: "), 1, 0);
+    auto w_srcpat = grid->addWidget(std::make_unique<Wt::WLineEdit>(), 1, 1);
+    w_srcpat->setText(item_->sourcePattern);
+
+    grid->addWidget(std::make_unique<Wt::WText>("Install command: "), 2, 0);
+    auto w_instcmd = grid->addWidget(std::make_unique<Wt::WLineEdit>(), 2, 1);
+    w_instcmd->setText(item_->installCommand);
+
+    grid->addWidget(std::make_unique<Wt::WText>("Parameters: "), 3, 0);
+
+    auto table = grid->addWidget(std::make_unique<WTable>(), 3,1);
+    table->setHeaderCount(1);
+    table->setWidth(WLength("100%"));
+    table->elementAt(0, 0)->addWidget(std::make_unique<WText>("Parameter name"));
+    table->elementAt(0, 1)->addWidget(std::make_unique<WText>("Default value"));
+
+    auto w_addparam = grid->addWidget(std::make_unique<Wt::WPushButton>("Add parameter"), 4, 1);
+    w_addparam->clicked().connect(this, [=] {
+      size_t row = v_paramNames.size()+1;
+      v_paramNames.push_back(table->elementAt(row, 0)->addWidget(std::make_unique<Wt::WLineEdit>()));
+      v_paramValues.push_back(table->elementAt(row, 1)->addWidget(std::make_unique<Wt::WLineEdit>()));
+    } );
 
     if(!createNew) {   // existing item might be deleted
       Wt::WPushButton *del = footer()->addWidget(std::make_unique<Wt::WPushButton>("Delete"));
@@ -58,6 +79,27 @@ DeployItemDialog::DeployItemDialog(Updateable *owner, Session &session, Wt::Dbo:
 
       // update the database object
       item_.modify()->name = w_name->text().toUTF8();
+      item_.modify()->sourcePattern = w_srcpat->text().toUTF8();
+      item_.modify()->installCommand = w_instcmd->text().toUTF8();
+      size_t ip = 0;
+      size_t np = v_paramNames.size();
+      auto &parameters = item_.modify()->parameters;
+      for(auto &p : parameters) {
+        if(ip < np) {
+          p.modify()->key = v_paramNames[ip]->text().toUTF8();
+          p.modify()->value = v_paramValues[ip]->text().toUTF8();
+        }
+        else {
+          parameters.erase(p);
+        }
+      }
+      for(; ip < np; ++ip) {
+        Wt::Dbo::ptr<KeyValue<DeployItem>> p(std::make_unique<KeyValue<DeployItem>>());
+        p.modify()->key = v_paramNames[ip]->text().toUTF8();
+        p.modify()->value = v_paramValues[ip]->text().toUTF8();
+        parameters.insert(p);
+      }
+
       if(createNew) {   // create new?
         session_.session_.add(item_);
       }

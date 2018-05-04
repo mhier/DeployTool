@@ -28,7 +28,9 @@ class DeployItemDialog : public WDialog {
     Updateable *owner_;
 
     Wt::Dbo::ptr<DeployItem> item_;
-    Wt::WText *errorMessage;
+
+    std::vector<Wt::WLineEdit*> v_paramNames;
+    std::vector<Wt::WLineEdit*> v_paramValues;
 
 };
 

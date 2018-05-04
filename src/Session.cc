@@ -29,6 +29,8 @@
 #include <boost/program_options.hpp>
 
 #include "DeployItem.h"
+#include "DeployGroup.h"
+#include "DeployItemInstance.h"
 
 namespace dbo = Wt::Dbo;
 namespace po = boost::program_options;
@@ -113,7 +115,11 @@ Session::Session() {
     session_.mapClass<AuthInfo>("auth_info");
     session_.mapClass<AuthInfo::AuthIdentityType>("auth_identity");
     session_.mapClass<AuthInfo::AuthTokenType>("auth_token");
+    session_.mapClass<DeployGroup>("deploy_groups");
     session_.mapClass<DeployItem>("deploy_items");
+    session_.mapClass<KeyValue<DeployItem>>("deploy_item_parameters");
+    session_.mapClass<DeployItemInstance>("deploy_item_instances");
+    session_.mapClass<KeyValue<DeployItemInstance>>("deploy_item_instance_parameters");
     users_ = std::make_unique<UserDatabase>(session_);
 
     dbo::Transaction transaction(session_);
