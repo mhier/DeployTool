@@ -49,7 +49,7 @@ void GroupList::update() {
       table->elementAt(row, 1)->addWidget(std::make_unique<WText>(item->hostname));
       table->elementAt(row, 2)->addWidget(std::make_unique<WText>(item->groupTemplate->name));
 
-      for(int i=0; i<2; ++i) {
+      for(int i=0; i<3; ++i) {
         table->elementAt(row,i)->clicked().connect(this, [=] {
           groupDialog_ = std::make_unique<GroupDialog>(this, session_, item);
           groupDialog_->show();

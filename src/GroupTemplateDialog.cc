@@ -52,6 +52,7 @@ void GroupTemplateDialog::update() {
     auto table = grid->addWidget(std::make_unique<WTable>(), 3,1);
     table->setHeaderCount(1);
     table->setWidth(WLength("100%"));
+    table->addStyleClass("table form-inline table-hover");
     table->elementAt(0, 0)->addWidget(std::make_unique<WText>("Item name"));
     table->elementAt(0, 1)->addWidget(std::make_unique<WText>("Parameters"));
 

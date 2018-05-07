@@ -67,6 +67,36 @@ void GroupDialog::update() {
       } );
     }
 
+    grid->addWidget(std::make_unique<Wt::WText>("Versions: "), 3, 0);
+
+    auto table = grid->addWidget(std::make_unique<WTable>(), 3,1);
+    table->setHeaderCount(1);
+    table->setWidth(WLength("100%"));
+    table->addStyleClass("table form-inline table-hover");
+    table->elementAt(0, 0)->addWidget(std::make_unique<WText>("Item name"));
+    table->elementAt(0, 1)->addWidget(std::make_unique<WText>("Parameters"));
+    table->elementAt(0, 2)->addWidget(std::make_unique<WText>("Version"));
+
+    if(group_->groupTemplate) {
+      auto &instances = group_->groupTemplate->deployItemInstances;
+      int row=1;
+      for(const auto &i : instances) {
+        std::string name = "(none)";
+        if(i->deployItem) name = i->deployItem->name;
+        table->elementAt(row,0)->addWidget(std::make_unique<WText>(name));
+        std::string params;
+        for(const auto &p : i->parameters) {
+          params += p->key + "=" + p->value + "; ";
+        }
+        table->elementAt(row,1)->addWidget(std::make_unique<WText>(params));
+
+        table->elementAt(row,2)->addWidget(std::make_unique<WLineEdit>());
+
+        row++;
+      }
+    }
+
+
     auto ok = footer()->addWidget(std::make_unique<Wt::WPushButton>("Ok"));
     ok->setDefault(true);
     ok->clicked().connect(this, [=] {
