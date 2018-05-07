@@ -46,7 +46,6 @@ void GroupTemplateList::update() {
 
       table->elementAt(row, 0)->addWidget(std::make_unique<WText>(WString("{1}").arg(row)));
       table->elementAt(row, 1)->addWidget(std::make_unique<WText>(item->name));
-      table->elementAt(row, 2)->addWidget(std::make_unique<WText>(item->hostname));
 
       for(int i=0; i<2; ++i) {
         table->elementAt(row,i)->clicked().connect(this, [=] {

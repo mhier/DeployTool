@@ -20,13 +20,11 @@ class GroupTemplate {
     GroupTemplate() {}
 
     std::string name;
-    std::string hostname;
     Wt::Dbo::collection< Wt::Dbo::ptr<DeployItemInstance> > deployItemInstances;
 
     template<class Action>
     void persist ( Action& a ) {
         Wt::Dbo::field ( a, name, "name" );
-        Wt::Dbo::field ( a, hostname, "hostname" );
         Wt::Dbo::hasMany ( a, deployItemInstances, Wt::Dbo::ManyToOne, "groupInstances" );
     }
 

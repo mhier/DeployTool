@@ -47,10 +47,6 @@ void GroupTemplateDialog::update() {
     auto w_name = grid->addWidget(std::make_unique<Wt::WLineEdit>(), 0, 1);
     w_name->setText(group_->name);
 
-    grid->addWidget(std::make_unique<Wt::WText>("Host name: "), 1, 0);
-    auto w_host = grid->addWidget(std::make_unique<Wt::WLineEdit>(), 1, 1);
-    w_host->setText(group_->hostname);
-
     grid->addWidget(std::make_unique<Wt::WText>("Deploy Item Instances: "), 3, 0);
 
     auto table = grid->addWidget(std::make_unique<WTable>(), 3,1);
@@ -111,7 +107,6 @@ void GroupTemplateDialog::update() {
 
       // update the database object
       group_.modify()->name = w_name->text().toUTF8();
-      group_.modify()->hostname = w_host->text().toUTF8();
 
       owner_->update();
       hide();
