@@ -15,9 +15,9 @@
 
 #include "DeployItemInstance.h"
 
-class DeployGroup {
+class GroupTemplate {
   public:
-    DeployGroup() {}
+    GroupTemplate() {}
 
     std::string name;
     std::string hostname;

@@ -13,22 +13,22 @@
 #include "DeployItem.h"
 #include "Session.h"
 #include "Updateable.h"
-#include "DeployGroupDialog.h"
+#include "GroupTemplateDialog.h"
 
 #include <Wt/Dbo/Dbo.h>
 #include <Wt/WContainerWidget.h>
 
 using namespace Wt;
 
-class DeployGroupList : public WContainerWidget, public Updateable {
+class GroupTemplateList : public WContainerWidget, public Updateable {
   public:
-    DeployGroupList(Session &session);
+    GroupTemplateList(Session &session);
 
     void update() override;
 
   private:
     Session &session_;
-    std::unique_ptr<DeployGroupDialog> groupDialog_;
+    std::unique_ptr<GroupTemplateDialog> groupDialog_;
 };
 
 #endif // DEPLOY_GROUP_LIST_H_

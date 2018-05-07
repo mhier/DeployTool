@@ -16,13 +16,13 @@
 #include "DeployItem.h"
 #include "KeyValue.h"
 
-class DeployGroup;
+class GroupTemplate;
 
 class DeployItemInstance {
   public:
     DeployItemInstance() {}
 
-    Wt::Dbo::ptr<DeployGroup> deployGroup;
+    Wt::Dbo::ptr<GroupTemplate> deployGroup;
     Wt::Dbo::ptr<DeployItem> deployItem;
     Wt::Dbo::collection< Wt::Dbo::ptr<KeyValue<DeployItemInstance>> > parameters;
 

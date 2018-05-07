@@ -7,8 +7,8 @@
  * See the LICENSE file for terms of use.
  */
 
-#include "DeployGroupList.h"
-#include "DeployGroupDialog.h"
+#include "GroupTemplateList.h"
+#include "GroupTemplateDialog.h"
 
 #include <Wt/WText.h>
 #include <Wt/WTable.h>
@@ -16,13 +16,13 @@
 #include <Wt/WDate.h>
 #include <Wt/WPushButton.h>
 
-DeployGroupList::DeployGroupList(Session &session)
+GroupTemplateList::GroupTemplateList(Session &session)
 : session_(session), Updateable(nullptr)
 {
     update();
 }
 
-void DeployGroupList::update() {
+void GroupTemplateList::update() {
     clear();
 
     auto user = session_.user();
@@ -39,7 +39,7 @@ void DeployGroupList::update() {
     table->elementAt(0, 0)->addWidget(std::make_unique<WText>("#"));
     table->elementAt(0, 1)->addWidget(std::make_unique<WText>("Name"));
 
-    auto items = session_.session_.find<DeployGroup>().resultList();
+    auto items = session_.session_.find<GroupTemplate>().resultList();
     int row = 0;
     for(auto item : items) {
       row++;
@@ -50,7 +50,7 @@ void DeployGroupList::update() {
 
       for(int i=0; i<2; ++i) {
         table->elementAt(row,i)->clicked().connect(this, [=] {
-          groupDialog_ = std::make_unique<DeployGroupDialog>(this, session_, item);
+          groupDialog_ = std::make_unique<GroupTemplateDialog>(this, session_, item);
           groupDialog_->show();
         });
       }
@@ -61,7 +61,7 @@ void DeployGroupList::update() {
 
     auto newGroup = addWidget(std::make_unique<Wt::WPushButton>("Create group..."));
     newGroup->clicked().connect(this, [=] {
-      groupDialog_ = std::make_unique<DeployGroupDialog>(this, session_, nullptr);
+      groupDialog_ = std::make_unique<GroupTemplateDialog>(this, session_, nullptr);
       groupDialog_->show();
     } );
 

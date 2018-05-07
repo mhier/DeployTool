@@ -9,7 +9,7 @@
 
 #include <cmath>
 
-#include "DeployGroup.h"
+#include "GroupTemplate.h"
 #include "DeployItemInstanceDialog.h"
 
 #include <Wt/WPushButton.h>

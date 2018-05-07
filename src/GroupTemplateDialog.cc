@@ -9,7 +9,7 @@
 
 #include <cmath>
 
-#include "DeployGroupDialog.h"
+#include "GroupTemplateDialog.h"
 
 #include <Wt/WPushButton.h>
 #include <Wt/WGridLayout.h>
@@ -17,13 +17,13 @@
 #include <Wt/WComboBox.h>
 #include <Wt/WTable.h>
 
-DeployGroupDialog::DeployGroupDialog(Updateable *owner, Session &session, Wt::Dbo::ptr<DeployGroup> group)
+GroupTemplateDialog::GroupTemplateDialog(Updateable *owner, Session &session, Wt::Dbo::ptr<GroupTemplate> group)
 : Wt::WDialog("Deploy Group"), Updateable(nullptr), session_(session), owner_(owner), group_(group)
 {
     update();
 }
 
-void DeployGroupDialog::update() {
+void GroupTemplateDialog::update() {
     contents()->clear();
     footer()->clear();
 
@@ -35,7 +35,7 @@ void DeployGroupDialog::update() {
     bool createNew = false;
     if(group_.get() == nullptr) {
       createNew = true;
-      group_ = Wt::Dbo::ptr<DeployGroup>(std::make_unique<DeployGroup>());
+      group_ = Wt::Dbo::ptr<GroupTemplate>(std::make_unique<GroupTemplate>());
       session_.session_.add(group_);
     }
 

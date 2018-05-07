@@ -12,7 +12,7 @@
 
 #include "Session.h"
 #include "Updateable.h"
-#include "DeployGroup.h"
+#include "GroupTemplate.h"
 #include "DeployItemInstanceDialog.h"
 
 #include <Wt/WDialog.h>
@@ -21,16 +21,16 @@
 
 using namespace Wt;
 
-class DeployGroupDialog : public WDialog, public Updateable {
+class GroupTemplateDialog : public WDialog, public Updateable {
   public:
-    DeployGroupDialog(Updateable *owner, Session &session, Wt::Dbo::ptr<DeployGroup> group);
+    GroupTemplateDialog(Updateable *owner, Session &session, Wt::Dbo::ptr<GroupTemplate> group);
 
     void update() override;
 
     Session &session_;
     Updateable *owner_;
 
-    Wt::Dbo::ptr<DeployGroup> group_;
+    Wt::Dbo::ptr<GroupTemplate> group_;
 
     std::unique_ptr<DeployItemInstanceDialog> instanceDialog_;
 
