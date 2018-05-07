@@ -15,20 +15,20 @@
 
 #include "KeyValue.h"
 
-class DeployItemInstance;
+class ItemInstance;
 
-class DeployItem {
+class Item {
   public:
-    DeployItem() {}
+    Item() {}
 
 
     std::string name;
     std::string sourcePattern;
     std::string installCommand;
-    Wt::Dbo::collection< Wt::Dbo::ptr<DeployItemInstance> > instances;
+    Wt::Dbo::collection< Wt::Dbo::ptr<ItemInstance> > instances;
 
     // known parameters with default values
-    Wt::Dbo::collection< Wt::Dbo::ptr<KeyValue<DeployItem>> > parameters;
+    Wt::Dbo::collection< Wt::Dbo::ptr<KeyValue<Item>> > parameters;
 
     template<class Action>
     void persist ( Action& a ) {
@@ -36,7 +36,7 @@ class DeployItem {
         Wt::Dbo::field ( a, sourcePattern, "sourcePattern" );
         Wt::Dbo::field ( a, installCommand, "installCommand" );
         Wt::Dbo::hasMany ( a, instances, Wt::Dbo::ManyToOne, "itemInstances" );
-        Wt::Dbo::hasMany ( a, parameters, Wt::Dbo::ManyToMany, KeyValue<DeployItem>::name );
+        Wt::Dbo::hasMany ( a, parameters, Wt::Dbo::ManyToMany, KeyValue<Item>::name );
     }
 
 };

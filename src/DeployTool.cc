@@ -22,7 +22,7 @@
 #include "Session.h"
 #include "DeployTool.h"
 #include "GroupTemplateList.h"
-#include "DeployItemList.h"
+#include "ItemList.h"
 
 DeployTool::DeployTool() {
     session_.login().changed().connect(this, &DeployTool::onAuthEvent);
@@ -70,7 +70,7 @@ void DeployTool::handleInternalPath(const std::string &internalPath) {
         contentStack_->addWidget( std::make_unique<GroupTemplateList>(session_) );
       }
       else if (internalPath == "/deployItemList") {
-        contentStack_->addWidget( std::make_unique<DeployItemList>(session_) );
+        contentStack_->addWidget( std::make_unique<ItemList>(session_) );
       }
       else if (internalPath == "/password") {
         //contentStack_->addWidget(std::make_unique<Wt::Auth::UpdatePasswordWidget>(session_.user(), ));

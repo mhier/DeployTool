@@ -10,7 +10,7 @@
 #include <cmath>
 
 #include "GroupTemplate.h"
-#include "DeployItemInstanceDialog.h"
+#include "ItemInstanceDialog.h"
 
 #include <Wt/WPushButton.h>
 #include <Wt/WGridLayout.h>
@@ -18,7 +18,7 @@
 #include <Wt/WComboBox.h>
 #include <Wt/WTable.h>
 
-DeployItemInstanceDialog::DeployItemInstanceDialog(Updateable *owner, Session &session, Wt::Dbo::ptr<DeployItemInstance> instance)
+ItemInstanceDialog::ItemInstanceDialog(Updateable *owner, Session &session, Wt::Dbo::ptr<ItemInstance> instance)
 : Wt::WDialog("Deploy Item Instance"), session_(session), owner_(owner), instance_(instance)
 {
     contents()->addStyleClass("form-group");
@@ -31,7 +31,7 @@ DeployItemInstanceDialog::DeployItemInstanceDialog(Updateable *owner, Session &s
       v_paramNames.clear();
       v_paramValues.clear();
       parameterTable_->clear();
-      auto items = session_.session_.find<DeployItem>().resultList();
+      auto items = session_.session_.find<Item>().resultList();
       for(auto item : items) {
         if(w_item->currentText() == item->name) {
           auto &parameters = item->parameters;
@@ -59,7 +59,7 @@ DeployItemInstanceDialog::DeployItemInstanceDialog(Updateable *owner, Session &s
 
       grid->addWidget(std::make_unique<Wt::WText>("Deploy item: "), 0, 0);
       w_item = grid->addWidget(std::make_unique<Wt::WComboBox>(), 0, 1);
-      auto items = session_.session_.find<DeployItem>().resultList();
+      auto items = session_.session_.find<Item>().resultList();
 
       parameterTable_ = grid->addWidget(std::make_unique<WTable>(), 3,1);
       parameterTable_->setHeaderCount(1);
@@ -98,7 +98,7 @@ DeployItemInstanceDialog::DeployItemInstanceDialog(Updateable *owner, Session &s
       dbo::Transaction transaction(session_.session_);
 
       // update the database object
-      auto items = session_.session_.find<DeployItem>().resultList();
+      auto items = session_.session_.find<Item>().resultList();
       for(auto item : items) {
         if(w_item->currentText() == item->name) {
           instance_.modify()->deployItem = item;
@@ -120,7 +120,7 @@ DeployItemInstanceDialog::DeployItemInstanceDialog(Updateable *owner, Session &s
         ++ip;
       }
       for(; ip < np; ++ip) {
-        Wt::Dbo::ptr<KeyValue<DeployItemInstance>> p(std::make_unique<KeyValue<DeployItemInstance>>());
+        Wt::Dbo::ptr<KeyValue<ItemInstance>> p(std::make_unique<KeyValue<ItemInstance>>());
         p.modify()->key = v_paramNames[ip]->text().toUTF8();
         p.modify()->value = v_paramValues[ip]->text().toUTF8();
         parameters.insert(p);

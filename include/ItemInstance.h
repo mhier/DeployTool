@@ -13,24 +13,24 @@
 #include <Wt/Dbo/Dbo.h>
 #include <Wt/Dbo/WtSqlTraits.h>
 
-#include "DeployItem.h"
+#include "Item.h"
 #include "KeyValue.h"
 
 class GroupTemplate;
 
-class DeployItemInstance {
+class ItemInstance {
   public:
-    DeployItemInstance() {}
+    ItemInstance() {}
 
     Wt::Dbo::ptr<GroupTemplate> deployGroup;
-    Wt::Dbo::ptr<DeployItem> deployItem;
-    Wt::Dbo::collection< Wt::Dbo::ptr<KeyValue<DeployItemInstance>> > parameters;
+    Wt::Dbo::ptr<Item> deployItem;
+    Wt::Dbo::collection< Wt::Dbo::ptr<KeyValue<ItemInstance>> > parameters;
 
     template<class Action>
     void persist ( Action& a ) {
         Wt::Dbo::belongsTo ( a, deployGroup, "groupInstances" );
         Wt::Dbo::belongsTo ( a, deployItem, "itemInstances" );
-        Wt::Dbo::hasMany ( a, parameters, Wt::Dbo::ManyToMany, KeyValue<DeployItemInstance>::name );
+        Wt::Dbo::hasMany ( a, parameters, Wt::Dbo::ManyToMany, KeyValue<ItemInstance>::name );
     }
 
 };

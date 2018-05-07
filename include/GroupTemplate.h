@@ -13,14 +13,14 @@
 #include <Wt/Dbo/Dbo.h>
 #include <Wt/Dbo/WtSqlTraits.h>
 
-#include "DeployItemInstance.h"
+#include "ItemInstance.h"
 
 class GroupTemplate {
   public:
     GroupTemplate() {}
 
     std::string name;
-    Wt::Dbo::collection< Wt::Dbo::ptr<DeployItemInstance> > deployItemInstances;
+    Wt::Dbo::collection< Wt::Dbo::ptr<ItemInstance> > deployItemInstances;
 
     template<class Action>
     void persist ( Action& a ) {

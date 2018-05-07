@@ -13,7 +13,7 @@
 #include "Session.h"
 #include "Updateable.h"
 #include "GroupTemplate.h"
-#include "DeployItemInstanceDialog.h"
+#include "ItemInstanceDialog.h"
 
 #include <Wt/WDialog.h>
 #include <Wt/WDateEdit.h>
@@ -32,7 +32,7 @@ class GroupTemplateDialog : public WDialog, public Updateable {
 
     Wt::Dbo::ptr<GroupTemplate> group_;
 
-    std::unique_ptr<DeployItemInstanceDialog> instanceDialog_;
+    std::unique_ptr<ItemInstanceDialog> instanceDialog_;
 
 };
 

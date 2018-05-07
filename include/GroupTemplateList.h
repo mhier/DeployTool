@@ -10,7 +10,7 @@
 #ifndef DEPLOY_GROUP_LIST_H_
 #define DEPLOY_GROUP_LIST_H_
 
-#include "DeployItem.h"
+#include "Item.h"
 #include "Session.h"
 #include "Updateable.h"
 #include "GroupTemplateDialog.h"

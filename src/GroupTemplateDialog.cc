@@ -70,7 +70,7 @@ void GroupTemplateDialog::update() {
       // make item list rows clickable
       for(int ic=0; ic<2; ++ic) {
         table->elementAt(row,ic)->clicked().connect(this, [=] {
-          instanceDialog_ = std::make_unique<DeployItemInstanceDialog>(this, session_, i);
+          instanceDialog_ = std::make_unique<ItemInstanceDialog>(this, session_, i);
           instanceDialog_->show();
         });
       }
@@ -81,11 +81,11 @@ void GroupTemplateDialog::update() {
     auto w_addparam = grid->addWidget(std::make_unique<Wt::WPushButton>("Add deploy item instance"), 4, 1);
     w_addparam->clicked().connect(this, [=] {
       Dbo::Transaction transaction(session_.session_);
-      Wt::Dbo::ptr<DeployItemInstance> instance_(std::make_unique<DeployItemInstance>());
+      Wt::Dbo::ptr<ItemInstance> instance_(std::make_unique<ItemInstance>());
       group_.modify()->deployItemInstances.insert(instance_);
       session_.session_.flush();
 
-      instanceDialog_ = std::make_unique<DeployItemInstanceDialog>(this, session_, instance_);
+      instanceDialog_ = std::make_unique<ItemInstanceDialog>(this, session_, instance_);
       instanceDialog_->show();
     } );
 

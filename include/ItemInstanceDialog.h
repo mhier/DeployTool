@@ -7,12 +7,12 @@
  * See the LICENSE file for terms of use.
  */
 
-#ifndef DEPLOY_ITEM_DIALOG_H_
-#define DEPLOY_ITEM_DIALOG_H_
+#ifndef DEPLOY_ITEM_INSTANCE_DIALOG_H_
+#define DEPLOY_ITEM_INSTANCE_DIALOG_H_
 
 #include "Session.h"
 #include "Updateable.h"
-#include "DeployItem.h"
+#include "ItemInstance.h"
 
 #include <Wt/WDialog.h>
 #include <Wt/WDateEdit.h>
@@ -20,18 +20,20 @@
 
 using namespace Wt;
 
-class DeployItemDialog : public WDialog {
+class ItemInstanceDialog : public WDialog {
   public:
-    DeployItemDialog(Updateable *owner, Session &session, Wt::Dbo::ptr<DeployItem> item);
+    ItemInstanceDialog(Updateable *owner, Session &session, Wt::Dbo::ptr<ItemInstance> instance);
 
     Session &session_;
     Updateable *owner_;
+    Wt::WComboBox *w_item;
+    Wt::WTable *parameterTable_;
 
-    Wt::Dbo::ptr<DeployItem> item_;
+    Wt::Dbo::ptr<ItemInstance> instance_;
 
     std::vector<Wt::WLineEdit*> v_paramNames;
     std::vector<Wt::WLineEdit*> v_paramValues;
 
 };
 
-#endif //DEPLOY_ITEM_DIALOG_H_
+#endif //DEPLOY_ITEM_INSTANCE_DIALOG_H_

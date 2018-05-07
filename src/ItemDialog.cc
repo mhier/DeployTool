@@ -9,7 +9,7 @@
 
 #include <cmath>
 
-#include "DeployItemDialog.h"
+#include "ItemDialog.h"
 
 #include <Wt/WPushButton.h>
 #include <Wt/WGridLayout.h>
@@ -17,7 +17,7 @@
 #include <Wt/WComboBox.h>
 #include <Wt/WTable.h>
 
-DeployItemDialog::DeployItemDialog(Updateable *owner, Session &session, Wt::Dbo::ptr<DeployItem> item)
+ItemDialog::ItemDialog(Updateable *owner, Session &session, Wt::Dbo::ptr<Item> item)
 : Wt::WDialog("Deploy Item"), owner_(owner), session_(session), item_(item)
 {
     contents()->addStyleClass("form-group");
@@ -28,7 +28,7 @@ DeployItemDialog::DeployItemDialog(Updateable *owner, Session &session, Wt::Dbo:
     bool createNew = false;
     if(item_.get() == nullptr) {
       createNew = true;
-      item_ = Wt::Dbo::ptr<DeployItem>(std::make_unique<DeployItem>());
+      item_ = Wt::Dbo::ptr<Item>(std::make_unique<Item>());
     }
 
     auto grid = contents()->setLayout(std::make_unique<Wt::WGridLayout>());
@@ -110,7 +110,7 @@ DeployItemDialog::DeployItemDialog(Updateable *owner, Session &session, Wt::Dbo:
         ++ip;
       }
       for(; ip < np; ++ip) {
-        Wt::Dbo::ptr<KeyValue<DeployItem>> p(std::make_unique<KeyValue<DeployItem>>());
+        Wt::Dbo::ptr<KeyValue<Item>> p(std::make_unique<KeyValue<Item>>());
         p.modify()->key = v_paramNames[ip]->text().toUTF8();
         p.modify()->value = v_paramValues[ip]->text().toUTF8();
         parameters.insert(p);

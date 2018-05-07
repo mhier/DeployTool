@@ -10,25 +10,25 @@
 #ifndef DEPLOYABLES_LIST_H_
 #define DEPLOYABLES_LIST_H_
 
-#include "DeployItem.h"
+#include "Item.h"
 #include "Session.h"
 #include "Updateable.h"
-#include "DeployItemDialog.h"
+#include "ItemDialog.h"
 
 #include <Wt/Dbo/Dbo.h>
 #include <Wt/WContainerWidget.h>
 
 using namespace Wt;
 
-class DeployItemList : public WContainerWidget, public Updateable {
+class ItemList : public WContainerWidget, public Updateable {
   public:
-    DeployItemList(Session &session);
+    ItemList(Session &session);
 
     void update() override;
 
   private:
     Session &session_;
-    std::unique_ptr<DeployItemDialog> itemDialog_;
+    std::unique_ptr<ItemDialog> itemDialog_;
 };
 
 #endif //DEPLOYABLES_LIST_H_
