@@ -1,11 +1,13 @@
 cmake_minimum_required(VERSION 2.6)
 project(DeployTool)
 
+include(cmake/enable_latest_cxx_support.cmake)
+
 set(WT_CONNECTOR "Wt::HTTP" CACHE STRING "Connector used (Wt::HTTP or Wt::FCGI)")
 
 set(DeployTool_TARGET wt_project.wt)
 
-set(CMAKE_CXX_FLAGS "-Wno-psabi")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-psabi")
 
 find_package(Boost REQUIRED COMPONENTS program_options signals system filesystem thread)
 find_package(wt REQUIRED COMPONENTS http fcgi dbo dbosqlite3 dbomysql)
