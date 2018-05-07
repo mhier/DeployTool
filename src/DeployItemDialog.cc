@@ -90,6 +90,12 @@ DeployItemDialog::DeployItemDialog(Updateable *owner, Session &session, Wt::Dbo:
       item_.modify()->name = w_name->text().toUTF8();
       item_.modify()->sourcePattern = w_srcpat->text().toUTF8();
       item_.modify()->installCommand = w_instcmd->text().toUTF8();
+
+      if(createNew) {   // create new?
+        session_.session_.add(item_);
+      }
+
+      // update parameters
       size_t ip = 0;
       size_t np = v_paramNames.size();
       auto &parameters = item_.modify()->parameters;
@@ -108,10 +114,6 @@ DeployItemDialog::DeployItemDialog(Updateable *owner, Session &session, Wt::Dbo:
         p.modify()->key = v_paramNames[ip]->text().toUTF8();
         p.modify()->value = v_paramValues[ip]->text().toUTF8();
         parameters.insert(p);
-      }
-
-      if(createNew) {   // create new?
-        session_.session_.add(item_);
       }
       owner_->update();
       hide();

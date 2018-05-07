@@ -21,13 +21,13 @@ class DeployGroup {
 
     std::string name;
     std::string hostname;
-    dbo::collection< dbo::ptr<DeployItemInstance> > deployItemInstances;
+    Wt::Dbo::collection< Wt::Dbo::ptr<DeployItemInstance> > deployItemInstances;
 
     template<class Action>
     void persist ( Action& a ) {
         Wt::Dbo::field ( a, name, "name" );
         Wt::Dbo::field ( a, hostname, "hostname" );
-        dbo::hasMany ( a, deployItemInstances, dbo::ManyToOne, "groupInstances" );
+        Wt::Dbo::hasMany ( a, deployItemInstances, Wt::Dbo::ManyToOne, "groupInstances" );
     }
 
 };

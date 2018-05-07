@@ -36,7 +36,7 @@ class DeployItem {
         Wt::Dbo::field ( a, sourcePattern, "sourcePattern" );
         Wt::Dbo::field ( a, installCommand, "installCommand" );
         Wt::Dbo::hasMany ( a, instances, Wt::Dbo::ManyToOne, "itemInstances" );
-        Wt::Dbo::hasMany ( a, parameters, Wt::Dbo::ManyToMany, "parameters" );
+        Wt::Dbo::hasMany ( a, parameters, Wt::Dbo::ManyToMany, KeyValue<DeployItem>::name );
     }
 
 };

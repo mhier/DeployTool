@@ -9,6 +9,7 @@
 
 #include <cmath>
 
+#include "DeployGroup.h"
 #include "DeployItemInstanceDialog.h"
 
 #include <Wt/WPushButton.h>
@@ -18,73 +19,96 @@
 #include <Wt/WTable.h>
 
 DeployItemInstanceDialog::DeployItemInstanceDialog(Updateable *owner, Session &session, Wt::Dbo::ptr<DeployItemInstance> instance)
-: Wt::WDialog("Deploy Item Instance"), owner_(owner), session_(session), instance_(instance)
+: Wt::WDialog("Deploy Item Instance"), session_(session), owner_(owner), instance_(instance)
 {
     contents()->addStyleClass("form-group");
 
-    Dbo::Transaction transaction(session_.session_);
-    auto user = session_.user();
+    // define lambda to update the parameter table
+    auto updateParameterTable = [=] {
+      parameterTable_->elementAt(0, 0)->addWidget(std::make_unique<WText>("Parameter name"));
+      parameterTable_->elementAt(0, 1)->addWidget(std::make_unique<WText>("Parameter value"));
+      Dbo::Transaction transaction(session_.session_);
+      v_paramNames.clear();
+      v_paramValues.clear();
+      parameterTable_->clear();
+      auto items = session_.session_.find<DeployItem>().resultList();
+      for(auto item : items) {
+        if(w_item->currentText() == item->name) {
+          auto &parameters = item->parameters;
+          for(const auto &p : parameters) {
+            int row = static_cast<int>(v_paramNames.size())+1;
+            v_paramNames.push_back(parameterTable_->elementAt(row, 0)->addWidget(std::make_unique<Wt::WLineEdit>()));
+            v_paramValues.push_back(parameterTable_->elementAt(row, 1)->addWidget(std::make_unique<Wt::WLineEdit>()));
+            v_paramNames.back()->setText(p->key);
+            v_paramValues.back()->setText(p->value);
+          }
+        }
+      }
+      transaction.commit();
+    };
 
-    bool createNew = false;
-    if(instance_.get() == nullptr) {
-      createNew = true;
-      instace_ = Wt::Dbo::ptr<DeployItem>(std::make_unique<DeployItemInstance>());
+    {
+      Dbo::Transaction transaction(session_.session_);
+      auto user = session_.user();
+
+      assert(instance_.get() != nullptr);
+
+      auto grid = contents()->setLayout(std::make_unique<Wt::WGridLayout>());
+      grid->setColumnStretch(0,0);
+      grid->setColumnStretch(1,1);
+
+      grid->addWidget(std::make_unique<Wt::WText>("Deploy item: "), 0, 0);
+      w_item = grid->addWidget(std::make_unique<Wt::WComboBox>(), 0, 1);
+      auto items = session_.session_.find<DeployItem>().resultList();
+
+      parameterTable_ = grid->addWidget(std::make_unique<WTable>(), 3,1);
+      parameterTable_->setHeaderCount(1);
+      parameterTable_->setWidth(WLength("100%"));
+      parameterTable_->elementAt(0, 0)->addWidget(std::make_unique<WText>("Parameter name"));
+      parameterTable_->elementAt(0, 1)->addWidget(std::make_unique<WText>("Parameter value"));
+
+      // when selecting a different DeployItem, update the table of parameter edit fields
+      w_item->changed().connect( updateParameterTable );
+
+      // fill the item selection box with the defined items and select the correct item
+      int index = 0;
+      w_item->setCurrentIndex(-1);
+      for(auto item : items) {
+        w_item->addItem(item->name);
+        if(instance_->deployItem == item) w_item->setCurrentIndex(index);
+        index++;
+      }
+      transaction.commit();
     }
 
-    auto grid = contents()->setLayout(std::make_unique<Wt::WGridLayout>());
-    grid->setColumnStretch(0,0);
-    grid->setColumnStretch(1,1);
+    // update the parameter edit fileds table upon show
+    updateParameterTable();
 
-    grid->addWidget(std::make_unique<Wt::WText>("Deploy item: "), 0, 0);
-    auto w_item = grid->addWidget(std::make_unique<Wt::WComboBox>(), 0, 1);
-    auto items = session_.session_.find<DeployItem>().resultList();
-    size_t index = 0;
-    for(auto item : items) {
-      w_item->addItem(item->name);
-      if(instance_->deployItemInstane == item) w_item.setCurrentIndex(index);
-      index++;
-    }
-    w_item->changed().connect( [=] {
-
+    Wt::WPushButton *del = footer()->addWidget(std::make_unique<Wt::WPushButton>("Delete"));
+    del->clicked().connect(this, [=] {
+      dbo::Transaction transaction(session_.session_);
+      instance_.remove();
+      owner_->update();
+      hide();
     } );
 
-    auto table = grid->addWidget(std::make_unique<WTable>(), 3,1);
-    table->setHeaderCount(1);
-    table->setWidth(WLength("100%"));
-    table->elementAt(0, 0)->addWidget(std::make_unique<WText>("Parameter name"));
-    table->elementAt(0, 1)->addWidget(std::make_unique<WText>("Parameter value"));
-
-    auto &parameters = instance_->deployItemInstance->parameters;
-    for(const auto &p : parameters) {
-      size_t row = v_paramNames.size()+1;
-      v_paramNames.push_back(table->elementAt(row, 0)->addWidget(std::make_unique<Wt::WLineEdit>()));
-      v_paramValues.push_back(table->elementAt(row, 1)->addWidget(std::make_unique<Wt::WLineEdit>()));
-      v_paramNames.back()->setText(p->key);
-      v_paramValues.back()->setText(p->value);
-    }
-
-    if(!createNew) {   // existing item might be deleted
-      Wt::WPushButton *del = footer()->addWidget(std::make_unique<Wt::WPushButton>("Delete"));
-      del->clicked().connect(this, [=] {
-        dbo::Transaction transaction(session_.session_);
-        item_.remove();
-        owner_->update();
-        hide();
-      } );
-    }
-
-    auto ok = footer()->addWidget(std::make_unique<Wt::WPushButton>("Save"));
+    auto ok = footer()->addWidget(std::make_unique<Wt::WPushButton>("Ok"));
     ok->setDefault(true);
     ok->clicked().connect(this, [=] {
       dbo::Transaction transaction(session_.session_);
 
       // update the database object
-      item_.modify()->name = w_name->text().toUTF8();
-      item_.modify()->sourcePattern = w_srcpat->text().toUTF8();
-      item_.modify()->installCommand = w_instcmd->text().toUTF8();
+      auto items = session_.session_.find<DeployItem>().resultList();
+      for(auto item : items) {
+        if(w_item->currentText() == item->name) {
+          instance_.modify()->deployItem = item;
+        }
+      }
+
+      // update parameters
       size_t ip = 0;
       size_t np = v_paramNames.size();
-      auto &parameters = item_.modify()->parameters;
+      auto &parameters = instance_.modify()->parameters;
       for(auto &p : parameters) {
         if(ip < np) {
           p.modify()->key = v_paramNames[ip]->text().toUTF8();
@@ -96,15 +120,12 @@ DeployItemInstanceDialog::DeployItemInstanceDialog(Updateable *owner, Session &s
         ++ip;
       }
       for(; ip < np; ++ip) {
-        Wt::Dbo::ptr<KeyValue<DeployItem>> p(std::make_unique<KeyValue<DeployItem>>());
+        Wt::Dbo::ptr<KeyValue<DeployItemInstance>> p(std::make_unique<KeyValue<DeployItemInstance>>());
         p.modify()->key = v_paramNames[ip]->text().toUTF8();
         p.modify()->value = v_paramValues[ip]->text().toUTF8();
         parameters.insert(p);
       }
 
-      if(createNew) {   // create new?
-        session_.session_.add(item_);
-      }
       owner_->update();
       hide();
     } );

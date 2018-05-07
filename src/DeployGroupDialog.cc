@@ -18,8 +18,15 @@
 #include <Wt/WTable.h>
 
 DeployGroupDialog::DeployGroupDialog(Updateable *owner, Session &session, Wt::Dbo::ptr<DeployGroup> group)
-: Wt::WDialog("Deploy Group"), owner_(owner), session_(session), group_(group)
+: Wt::WDialog("Deploy Group"), Updateable(nullptr), session_(session), owner_(owner), group_(group)
 {
+    update();
+}
+
+void DeployGroupDialog::update() {
+    contents()->clear();
+    footer()->clear();
+
     contents()->addStyleClass("form-group");
 
     Dbo::Transaction transaction(session_.session_);
@@ -29,6 +36,7 @@ DeployGroupDialog::DeployGroupDialog(Updateable *owner, Session &session, Wt::Db
     if(group_.get() == nullptr) {
       createNew = true;
       group_ = Wt::Dbo::ptr<DeployGroup>(std::make_unique<DeployGroup>());
+      session_.session_.add(group_);
     }
 
     auto grid = contents()->setLayout(std::make_unique<Wt::WGridLayout>());
@@ -52,31 +60,51 @@ DeployGroupDialog::DeployGroupDialog(Updateable *owner, Session &session, Wt::Db
     table->elementAt(0, 1)->addWidget(std::make_unique<WText>("Parameters"));
 
     auto &instances = group_->deployItemInstances;
-    size_t row=1;
+    int row=1;
     for(const auto &i : instances) {
-      table->elementAt(row,0)->addWidget(std::make_unique<WText>(i->deployItems->name));
+      std::string name = "(none)";
+      if(i->deployItem) name = i->deployItem->name;
+      table->elementAt(row,0)->addWidget(std::make_unique<WText>(name));
       std::string params;
       for(const auto &p : i->parameters) {
         params += p->key + "=" + p->value + "; ";
       }
-      table->elementAt(row,0)->addWidget(std::make_unique<WText>(params));
+      table->elementAt(row,1)->addWidget(std::make_unique<WText>(params));
+
+      // make item list rows clickable
+      for(int ic=0; ic<2; ++ic) {
+        table->elementAt(row,ic)->clicked().connect(this, [=] {
+          instanceDialog_ = std::make_unique<DeployItemInstanceDialog>(this, session_, i);
+          instanceDialog_->show();
+        });
+      }
+
+      row++;
     }
 
     auto w_addparam = grid->addWidget(std::make_unique<Wt::WPushButton>("Add deploy item instance"), 4, 1);
     w_addparam->clicked().connect(this, [=] {
+      Dbo::Transaction transaction(session_.session_);
+      Wt::Dbo::ptr<DeployItemInstance> instance_(std::make_unique<DeployItemInstance>());
+      group_.modify()->deployItemInstances.insert(instance_);
+      session_.session_.flush();
+
+      instanceDialog_ = std::make_unique<DeployItemInstanceDialog>(this, session_, instance_);
+      instanceDialog_->show();
     } );
 
-    if(!createNew) {   // existing item might be deleted
+    if(!createNew) {
       Wt::WPushButton *del = footer()->addWidget(std::make_unique<Wt::WPushButton>("Delete"));
       del->clicked().connect(this, [=] {
         dbo::Transaction transaction(session_.session_);
+        for(auto &i : group_.modify()->deployItemInstances) i.remove();
         group_.remove();
         owner_->update();
         hide();
       } );
     }
 
-    auto ok = footer()->addWidget(std::make_unique<Wt::WPushButton>("Save"));
+    auto ok = footer()->addWidget(std::make_unique<Wt::WPushButton>("Ok"));
     ok->setDefault(true);
     ok->clicked().connect(this, [=] {
       dbo::Transaction transaction(session_.session_);
@@ -85,14 +113,23 @@ DeployGroupDialog::DeployGroupDialog(Updateable *owner, Session &session, Wt::Db
       group_.modify()->name = w_name->text().toUTF8();
       group_.modify()->hostname = w_host->text().toUTF8();
 
-      if(createNew) {   // create new?
-        session_.session_.add(group_);
-      }
       owner_->update();
       hide();
     } );
 
-    auto cancel = footer()->addWidget(std::make_unique<Wt::WPushButton>("Cancel"));
-    cancel->clicked().connect(this, [=] {hide();} );
+    if(!createNew) {
+      auto cancel = footer()->addWidget(std::make_unique<Wt::WPushButton>("Cancel"));
+      cancel->clicked().connect(this, [=] {hide();} );
+    }
+    else {
+      Wt::WPushButton *del = footer()->addWidget(std::make_unique<Wt::WPushButton>("Cancel"));
+      del->clicked().connect(this, [=] {
+        dbo::Transaction transaction(session_.session_);
+        for(auto &i : group_.modify()->deployItemInstances) i.remove();
+        group_.remove();
+        owner_->update();
+        hide();
+      } );
+    }
 
 }

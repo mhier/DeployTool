@@ -22,13 +22,18 @@ class KeyValue {
     std::string key;
     std::string value;
 
+    const static std::string name;
+
     template<class Action>
     void persist ( Action& a ) {
-        Wt::Dbo::hasMany ( a, owner, Wt::Dbo::ManyToMany, "parameters" );
+        Wt::Dbo::hasMany ( a, owner, Wt::Dbo::ManyToMany, name );
         Wt::Dbo::field ( a, key, "key" );
         Wt::Dbo::field ( a, value, "value" );
     }
 
 };
+
+template<typename OWNER>
+const std::string KeyValue<OWNER>::name = std::string("parameters_") + typeid(OWNER).name();
 
 #endif // KEYVALUE_H

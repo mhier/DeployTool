@@ -12,7 +12,7 @@
 
 #include "Session.h"
 #include "Updateable.h"
-#include "DeployItem.h"
+#include "DeployItemInstance.h"
 
 #include <Wt/WDialog.h>
 #include <Wt/WDateEdit.h>
@@ -26,6 +26,8 @@ class DeployItemInstanceDialog : public WDialog {
 
     Session &session_;
     Updateable *owner_;
+    Wt::WComboBox *w_item;
+    Wt::WTable *parameterTable_;
 
     Wt::Dbo::ptr<DeployItemInstance> instance_;
 

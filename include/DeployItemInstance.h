@@ -23,14 +23,14 @@ class DeployItemInstance {
     DeployItemInstance() {}
 
     Wt::Dbo::ptr<DeployGroup> deployGroup;
-    dbo::ptr<DeployItem> deployItems;
-    Wt::Dbo::collection< dbo::ptr<KeyValue<DeployItemInstance>> > parameters;
+    Wt::Dbo::ptr<DeployItem> deployItem;
+    Wt::Dbo::collection< Wt::Dbo::ptr<KeyValue<DeployItemInstance>> > parameters;
 
     template<class Action>
     void persist ( Action& a ) {
         Wt::Dbo::belongsTo ( a, deployGroup, "groupInstances" );
-        Wt::Dbo::belongsTo ( a, deployItems, "itemInstances" );
-        Wt::Dbo::hasMany ( a, parameters, dbo::ManyToMany, "parameters" );
+        Wt::Dbo::belongsTo ( a, deployItem, "itemInstances" );
+        Wt::Dbo::hasMany ( a, parameters, Wt::Dbo::ManyToMany, KeyValue<DeployItemInstance>::name );
     }
 
 };
