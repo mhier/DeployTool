@@ -29,6 +29,7 @@
 #include <boost/program_options.hpp>
 
 #include "Item.h"
+#include "Group.h"
 #include "GroupTemplate.h"
 #include "ItemInstance.h"
 
@@ -115,6 +116,7 @@ Session::Session() {
     session_.mapClass<AuthInfo>("auth_info");
     session_.mapClass<AuthInfo::AuthIdentityType>("auth_identity");
     session_.mapClass<AuthInfo::AuthTokenType>("auth_token");
+    session_.mapClass<Group>("groups");
     session_.mapClass<GroupTemplate>("group_templates");
     session_.mapClass<Item>("items");
     session_.mapClass<KeyValue<Item>>("item_parameters");

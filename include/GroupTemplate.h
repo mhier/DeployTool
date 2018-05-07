@@ -15,17 +15,21 @@
 
 #include "ItemInstance.h"
 
+class Group;
+
 class GroupTemplate {
   public:
     GroupTemplate() {}
 
     std::string name;
     Wt::Dbo::collection< Wt::Dbo::ptr<ItemInstance> > deployItemInstances;
+    Wt::Dbo::collection< Wt::Dbo::ptr<Group> > groups;
 
     template<class Action>
     void persist ( Action& a ) {
         Wt::Dbo::field ( a, name, "name" );
         Wt::Dbo::hasMany ( a, deployItemInstances, Wt::Dbo::ManyToOne, "groupInstances" );
+        Wt::Dbo::hasMany ( a, groups, Wt::Dbo::ManyToOne, "groupTemplate" );
     }
 
 };

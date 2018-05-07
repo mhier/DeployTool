@@ -7,8 +7,8 @@
  * See the LICENSE file for terms of use.
  */
 
-#include "ItemList.h"
-#include "ItemDialog.h"
+#include "GroupList.h"
+#include "GroupDialog.h"
 
 #include <Wt/WText.h>
 #include <Wt/WTable.h>
@@ -16,20 +16,20 @@
 #include <Wt/WDate.h>
 #include <Wt/WPushButton.h>
 
-ItemList::ItemList(Session &session)
-: session_(session), Updateable(nullptr)
+GroupList::GroupList(Session &session)
+: Updateable(nullptr), session_(session)
 {
     update();
 }
 
-void ItemList::update() {
+void GroupList::update() {
     clear();
 
     auto user = session_.user();
 
     dbo::Transaction transaction(session_.session_);
 
-    addWidget(std::make_unique<WText>("<h2>List of items</h2>"));
+    addWidget(std::make_unique<WText>("<h2>List of groups</h2>"));
 
     auto table = std::make_unique<WTable>();
     table->setHeaderCount(1);
@@ -37,20 +37,22 @@ void ItemList::update() {
     table->addStyleClass("table form-inline table-hover");
 
     table->elementAt(0, 0)->addWidget(std::make_unique<WText>("#"));
-    table->elementAt(0, 1)->addWidget(std::make_unique<WText>("Name"));
+    table->elementAt(0, 1)->addWidget(std::make_unique<WText>("Hostname"));
+    table->elementAt(0, 2)->addWidget(std::make_unique<WText>("Template"));
 
-    auto items = session_.session_.find<Item>().resultList();
+    auto items = session_.session_.find<Group>().resultList();
     int row = 0;
     for(auto item : items) {
       row++;
 
       table->elementAt(row, 0)->addWidget(std::make_unique<WText>(WString("{1}").arg(row)));
-      table->elementAt(row, 1)->addWidget(std::make_unique<WText>(item->name));
+      table->elementAt(row, 1)->addWidget(std::make_unique<WText>(item->hostname));
+      table->elementAt(row, 2)->addWidget(std::make_unique<WText>(item->groupTemplate->name));
 
       for(int i=0; i<2; ++i) {
         table->elementAt(row,i)->clicked().connect(this, [=] {
-          itemDialog_ = std::make_unique<ItemDialog>(this, session_, item);
-          itemDialog_->show();
+          groupDialog_ = std::make_unique<GroupDialog>(this, session_, item);
+          groupDialog_->show();
         });
       }
 
@@ -58,10 +60,10 @@ void ItemList::update() {
 
     addWidget(std::move(table));
 
-    auto newItem = addWidget(std::make_unique<Wt::WPushButton>("Create item..."));
-    newItem->clicked().connect(this, [=] {
-      itemDialog_ = std::make_unique<ItemDialog>(this, session_, nullptr);
-      itemDialog_->show();
+    auto newGroup = addWidget(std::make_unique<Wt::WPushButton>("Create group..."));
+    newGroup->clicked().connect(this, [=] {
+      groupDialog_ = std::make_unique<GroupDialog>(this, session_, nullptr);
+      groupDialog_->show();
     } );
 
 }

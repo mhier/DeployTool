@@ -59,7 +59,6 @@ ItemInstanceDialog::ItemInstanceDialog(Updateable *owner, Session &session, Wt::
 
       grid->addWidget(std::make_unique<Wt::WText>("Deploy item: "), 0, 0);
       w_item = grid->addWidget(std::make_unique<Wt::WComboBox>(), 0, 1);
-      auto items = session_.session_.find<Item>().resultList();
 
       parameterTable_ = grid->addWidget(std::make_unique<WTable>(), 3,1);
       parameterTable_->setHeaderCount(1);
@@ -73,6 +72,7 @@ ItemInstanceDialog::ItemInstanceDialog(Updateable *owner, Session &session, Wt::
       // fill the item selection box with the defined items and select the correct item
       int index = 0;
       w_item->setCurrentIndex(-1);
+      auto items = session_.session_.find<Item>().resultList();
       for(auto item : items) {
         w_item->addItem(item->name);
         if(instance_->deployItem == item) w_item->setCurrentIndex(index);

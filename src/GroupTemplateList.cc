@@ -29,7 +29,7 @@ void GroupTemplateList::update() {
 
     dbo::Transaction transaction(session_.session_);
 
-    addWidget(std::make_unique<WText>("<h2>List of deploy groups</h2>"));
+    addWidget(std::make_unique<WText>("<h2>List of group templates</h2>"));
 
     auto table = std::make_unique<WTable>();
     table->setHeaderCount(1);
