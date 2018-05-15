@@ -17,6 +17,7 @@
 #include "KeyValue.h"
 
 class GroupTemplate;
+class InstanceVersion;
 
 class ItemInstance {
   public:
@@ -25,12 +26,14 @@ class ItemInstance {
     Wt::Dbo::ptr<GroupTemplate> deployGroup;
     Wt::Dbo::ptr<Item> deployItem;
     Wt::Dbo::collection< Wt::Dbo::ptr<KeyValue<ItemInstance>> > parameters;
+    Wt::Dbo::collection< Wt::Dbo::ptr<InstanceVersion> > versions;
 
     template<class Action>
     void persist ( Action& a ) {
         Wt::Dbo::belongsTo ( a, deployGroup, "groupInstances" );
         Wt::Dbo::belongsTo ( a, deployItem, "itemInstances" );
         Wt::Dbo::hasMany ( a, parameters, Wt::Dbo::ManyToMany, KeyValue<ItemInstance>::name );
+        Wt::Dbo::hasMany ( a, versions, Wt::Dbo::ManyToMany, "itemInstanceVersions" );
     }
 
 };

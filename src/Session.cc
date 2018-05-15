@@ -31,6 +31,8 @@
 #include "Item.h"
 #include "Group.h"
 #include "GroupTemplate.h"
+#include "GroupVersion.h"
+#include "InstanceVersion.h"
 #include "ItemInstance.h"
 
 namespace dbo = Wt::Dbo;
@@ -118,6 +120,8 @@ Session::Session() {
     session_.mapClass<AuthInfo::AuthTokenType>("auth_token");
     session_.mapClass<Group>("groups");
     session_.mapClass<GroupTemplate>("group_templates");
+    session_.mapClass<GroupVersion>("group_versions");
+    session_.mapClass<InstanceVersion>("instance_versions");
     session_.mapClass<Item>("items");
     session_.mapClass<KeyValue<Item>>("item_parameters");
     session_.mapClass<ItemInstance>("item_instances");
@@ -136,17 +140,17 @@ Session::Session() {
       log("info") << "Using existing database";
     }
 
+    // output SQL for creating tables
+    std::ofstream file("createTables.sql");
+    file << session_.tableCreationSql();
+    file.close();
+
     if(initialiseDatabase) {
 
       /*
       * Add a default admin/admin account
       */
       registerUser("admin", "admin@example.com", "admin");
-
-      // output SQL for creating tables
-      std::ofstream file("createTables.sql");
-      file << session_.tableCreationSql();
-      file.close();
 
     }
 

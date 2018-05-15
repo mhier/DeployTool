@@ -7,13 +7,14 @@
  * See the LICENSE file for terms of use.
  */
 
-#ifndef INCLUDE_DEPLOY_GROUP_H_
-#define INCLUDE_DEPLOY_GROUP_H_
+#ifndef INCLUDE_GROUP_TEMPLATE_H_
+#define INCLUDE_GROUP_TEMPLATE_H_
 
 #include <Wt/Dbo/Dbo.h>
 #include <Wt/Dbo/WtSqlTraits.h>
 
 #include "ItemInstance.h"
+#include "GroupVersion.h"
 
 class Group;
 
@@ -24,14 +25,16 @@ class GroupTemplate {
     std::string name;
     Wt::Dbo::collection< Wt::Dbo::ptr<ItemInstance> > deployItemInstances;
     Wt::Dbo::collection< Wt::Dbo::ptr<Group> > groups;
+    Wt::Dbo::collection< Wt::Dbo::ptr<GroupVersion> > allowedVersions;
 
     template<class Action>
     void persist ( Action& a ) {
         Wt::Dbo::field ( a, name, "name" );
         Wt::Dbo::hasMany ( a, deployItemInstances, Wt::Dbo::ManyToOne, "groupInstances" );
         Wt::Dbo::hasMany ( a, groups, Wt::Dbo::ManyToOne, "groupTemplate" );
+        Wt::Dbo::hasMany ( a, allowedVersions, Wt::Dbo::ManyToOne, "allowedVersions" );
     }
 
 };
 
-#endif /* INCLUDE_DEPLOY_GROUP_H_ */
+#endif /* INCLUDE_GROUP_TEMPLATE_H_ */

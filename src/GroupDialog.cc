@@ -75,7 +75,7 @@ void GroupDialog::update() {
     table->addStyleClass("table form-inline table-hover");
     table->elementAt(0, 0)->addWidget(std::make_unique<WText>("Item name"));
     table->elementAt(0, 1)->addWidget(std::make_unique<WText>("Parameters"));
-    table->elementAt(0, 2)->addWidget(std::make_unique<WText>("Version"));
+    table->elementAt(0, 2)->addWidget(std::make_unique<WText>("Current version"));
 
     if(group_->groupTemplate) {
       auto &instances = group_->groupTemplate->deployItemInstances;
@@ -90,7 +90,7 @@ void GroupDialog::update() {
         }
         table->elementAt(row,1)->addWidget(std::make_unique<WText>(params));
 
-        table->elementAt(row,2)->addWidget(std::make_unique<WLineEdit>());
+        table->elementAt(row,2)->addWidget(std::make_unique<WText>("todo"));
 
         row++;
       }
