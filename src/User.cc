@@ -16,5 +16,6 @@ DBO_INSTANTIATE_TEMPLATES(User);
 
 using namespace Wt::Dbo;
 
+User::User() {}
 
-
+User::~User() {}

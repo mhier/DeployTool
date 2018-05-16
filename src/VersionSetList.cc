@@ -7,8 +7,8 @@
  * See the LICENSE file for terms of use.
  */
 
-#include "VersionsList.h"
-#include "GroupVersion.h"
+#include "VersionSetList.h"
+#include "VersionSet.h"
 
 #include <Wt/WText.h>
 #include <Wt/WTable.h>
@@ -16,13 +16,13 @@
 #include <Wt/WDate.h>
 #include <Wt/WPushButton.h>
 
-VersionsList::VersionsList(Session &session)
-: Updateable(nullptr), session_(session)
+VersionSetList::VersionSetList(Session &session)
+: session_(session)
 {
     update();
 }
 
-void VersionsList::update() {
+void VersionSetList::update() {
     clear();
 
     auto user = session_.user();
@@ -40,7 +40,7 @@ void VersionsList::update() {
     table->elementAt(0, 1)->addWidget(std::make_unique<WText>("Template"));
     table->elementAt(0, 2)->addWidget(std::make_unique<WText>("Versions"));
 
-    auto items = session_.session_.find<GroupVersion>().resultList();
+    auto items = session_.session_.find<VersionSet>().resultList();
     int row = 0;
     for(auto item : items) {
       row++;
@@ -55,7 +55,7 @@ void VersionsList::update() {
 
       for(int i=0; i<3; ++i) {
         table->elementAt(row,i)->clicked().connect(this, [=] {
-          groupVersionDialog_ = std::make_unique<GroupVersionDialog>(this, session_, item);
+          groupVersionDialog_ = std::make_unique<VersionSetDialog>(this, session_, item);
           groupVersionDialog_->show();
         });
       }
@@ -64,9 +64,9 @@ void VersionsList::update() {
 
     addWidget(std::move(table));
 
-    auto newGroup = addWidget(std::make_unique<Wt::WPushButton>("Create group..."));
+    auto newGroup = addWidget(std::make_unique<Wt::WPushButton>("Add version set..."));
     newGroup->clicked().connect(this, [=] {
-      groupVersionDialog_ = std::make_unique<GroupVersionDialog>(this, session_, nullptr);
+      groupVersionDialog_ = std::make_unique<VersionSetDialog>(this, session_, nullptr);
       groupVersionDialog_->show();
     } );
 

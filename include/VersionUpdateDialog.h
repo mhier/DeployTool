@@ -11,7 +11,7 @@
 #define INCLUDE_VERSION_UPDATE_DIALOG_H_
 
 #include "Session.h"
-#include "Updateable.h"
+#include "UpdateableWidget.h"
 #include "Group.h"
 #include "ItemInstanceDialog.h"
 
@@ -21,14 +21,14 @@
 
 using namespace Wt;
 
-class VersionUpdateDialog : public WDialog, public Updateable {
+class VersionUpdateDialog : public WDialog, public UpdateableWidget {
   public:
-    VersionUpdateDialog(Updateable *owner, Session &session, Wt::Dbo::ptr<Group> group);
+    VersionUpdateDialog(UpdateableWidget *owner, Session &session, Wt::Dbo::ptr<Group> group);
 
     void update() override;
 
     Session &session_;
-    Updateable *owner_;
+    UpdateableWidget *owner_;
 
     Wt::Dbo::ptr<Group> group_;
 

@@ -7,8 +7,8 @@
  * See the LICENSE file for terms of use.
  */
 
-#ifndef INCLUDE_GROUP_VERSION_H_
-#define INCLUDE_GROUP_VERSION_H_
+#ifndef INCLUDE_VERSION_SET_H_
+#define INCLUDE_VERSION_SET_H_
 
 #include <Wt/Dbo/Dbo.h>
 #include <Wt/Dbo/WtSqlTraits.h>
@@ -18,9 +18,9 @@
 
 class Group;
 
-class GroupVersion {
+class VersionSet {
   public:
-    GroupVersion() {}
+    VersionSet() {}
 
     Wt::Dbo::collection< Wt::Dbo::ptr<InstanceVersion> > instanceVersions;
     Wt::Dbo::ptr<GroupTemplate> groupTemplate;
@@ -35,4 +35,4 @@ class GroupVersion {
 
 };
 
-#endif /* INCLUDE_GROUP_VERSION_H_ */
+#endif /* INCLUDE_VERSION_SET_H_ */

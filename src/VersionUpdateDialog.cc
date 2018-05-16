@@ -17,8 +17,8 @@
 #include <Wt/WComboBox.h>
 #include <Wt/WTable.h>
 
-VersionUpdateDialog::VersionUpdateDialog(Updateable *owner, Session &session, Wt::Dbo::ptr<Group> group)
-: Wt::WDialog("Update versions in group"), Updateable(nullptr), session_(session), owner_(owner), group_(group)
+VersionUpdateDialog::VersionUpdateDialog(UpdateableWidget *owner, Session &session, Wt::Dbo::ptr<Group> group)
+: Wt::WDialog("Update versions in group"), session_(session), owner_(owner), group_(group)
 {
     update();
 }
@@ -56,7 +56,7 @@ void VersionUpdateDialog::update() {
     int index = 0;
     {
       Dbo::Transaction transaction(session_.session_);
-      auto groupVersions = session_.session_.find<GroupVersion>().resultList();
+      auto groupVersions = session_.session_.find<VersionSet>().resultList();
       for(auto gv : groupVersions) {
         if(gv->groupTemplate != group_->groupTemplate) continue;
         std::string versionSummary;
@@ -82,9 +82,9 @@ void VersionUpdateDialog::update() {
       dbo::Transaction transaction(session_.session_);
 
       // find the selected version set
-      Wt::Dbo::ptr<GroupVersion> selectedSet;
+      Wt::Dbo::ptr<VersionSet> selectedSet;
       std::string selectedVersionSummary = w_versionSet->currentText().toUTF8();
-      auto groupVersions = session_.session_.find<GroupVersion>().resultList();
+      auto groupVersions = session_.session_.find<VersionSet>().resultList();
       for(auto gv : groupVersions) {
         if(gv->groupTemplate != group_->groupTemplate) continue;
         std::string versionSummary;
@@ -142,9 +142,9 @@ found:
         dbo::Transaction transaction(session_.session_);
 
         // find the selected version set
-        Wt::Dbo::ptr<GroupVersion> selectedSet;
+        Wt::Dbo::ptr<VersionSet> selectedSet;
         std::string selectedVersionSummary = w_versionSet->currentText().toUTF8();
-        auto groupVersions = session_.session_.find<GroupVersion>().resultList();
+        auto groupVersions = session_.session_.find<VersionSet>().resultList();
         for(auto gv : groupVersions) {
           if(gv->groupTemplate != group_->groupTemplate) continue;
           std::string versionSummary;

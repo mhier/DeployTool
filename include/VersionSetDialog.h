@@ -7,11 +7,11 @@
  * See the LICENSE file for terms of use.
  */
 
-#ifndef INCLUDE_GROUP_VERSION_DIALOG_H_
-#define INCLUDE_GROUP_VERSION_DIALOG_H_
+#ifndef INCLUDE_VERSION_SET_DIALOG_H_
+#define INCLUDE_VERSION_SET_DIALOG_H_
 
 #include "Session.h"
-#include "Updateable.h"
+#include "UpdateableWidget.h"
 #include "Group.h"
 #include "ItemInstanceDialog.h"
 
@@ -21,19 +21,19 @@
 
 using namespace Wt;
 
-class GroupVersionDialog : public WDialog, public Updateable {
+class VersionSetDialog : public WDialog, public UpdateableWidget {
   public:
-    GroupVersionDialog(Updateable *owner, Session &session, Wt::Dbo::ptr<GroupVersion> groupVersion);
+    VersionSetDialog(UpdateableWidget *owner, Session &session, Wt::Dbo::ptr<VersionSet> groupVersion);
 
     void update() override;
 
     Session &session_;
-    Updateable *owner_;
+    UpdateableWidget *owner_;
 
-    Wt::Dbo::ptr<GroupVersion> groupVersion_;
+    Wt::Dbo::ptr<VersionSet> groupVersion_;
 
     std::vector<WLineEdit*> versions_;
 
 };
 
-#endif // INCLUDE_GROUP_VERSION_DIALOG_H_
+#endif // INCLUDE_VERSION_SET_DIALOG_H_

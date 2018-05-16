@@ -17,8 +17,8 @@
 #include <Wt/WComboBox.h>
 #include <Wt/WTable.h>
 
-GroupTemplateDialog::GroupTemplateDialog(Updateable *owner, Session &session, Wt::Dbo::ptr<GroupTemplate> group)
-: Wt::WDialog("Group template"), Updateable(nullptr), session_(session), owner_(owner), group_(group)
+GroupTemplateDialog::GroupTemplateDialog(UpdateableWidget *owner, Session &session, Wt::Dbo::ptr<GroupTemplate> group)
+: Wt::WDialog("Group template"), session_(session), owner_(owner), group_(group)
 {
     update();
 }

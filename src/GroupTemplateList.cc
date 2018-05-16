@@ -17,7 +17,7 @@
 #include <Wt/WPushButton.h>
 
 GroupTemplateList::GroupTemplateList(Session &session)
-: Updateable(nullptr), session_(session)
+: session_(session)
 {
     update();
 }

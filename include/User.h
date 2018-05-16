@@ -7,8 +7,8 @@
  * See the LICENSE file for terms of use.
  */
 
-#ifndef USER_H_
-#define USER_H_
+#ifndef INCLUDE_USER_H_
+#define INCLUDE_USER_H_
 
 #include <Wt/WDateTime.h>
 #include <Wt/Dbo/Types.h>
@@ -29,8 +29,8 @@ typedef dbo::collection< dbo::ptr<User> > Users;
 
 class User {
   public:
-    User() { }
-    virtual ~User() {}
+    User();
+    virtual ~User();
 
     std::string name; /* a copy of auth info's user name */
 
@@ -47,4 +47,4 @@ class User {
 
 DBO_EXTERN_TEMPLATES ( User );
 
-#endif // USER_H_
+#endif // INCLUDE_USER_H_

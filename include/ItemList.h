@@ -7,12 +7,12 @@
  * See the LICENSE file for terms of use.
  */
 
-#ifndef DEPLOYABLES_LIST_H_
-#define DEPLOYABLES_LIST_H_
+#ifndef INCLUDE_ITEM_LIST_H_
+#define INCLUDE_ITEM_LIST_H_
 
 #include "Item.h"
 #include "Session.h"
-#include "Updateable.h"
+#include "UpdateableWidget.h"
 #include "ItemDialog.h"
 
 #include <Wt/Dbo/Dbo.h>
@@ -20,7 +20,7 @@
 
 using namespace Wt;
 
-class ItemList : public WContainerWidget, public Updateable {
+class ItemList : public WContainerWidget, public UpdateableWidget {
   public:
     ItemList(Session &session);
 
@@ -31,4 +31,4 @@ class ItemList : public WContainerWidget, public Updateable {
     std::unique_ptr<ItemDialog> itemDialog_;
 };
 
-#endif //DEPLOYABLES_LIST_H_
+#endif //INCLUDE_ITEM_LIST_H_

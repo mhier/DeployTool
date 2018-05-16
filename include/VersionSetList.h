@@ -7,28 +7,28 @@
  * See the LICENSE file for terms of use.
  */
 
-#ifndef VERSIONS_LIST_H_
-#define VERSIONS_LIST_H_
+#ifndef INCLUDE_VERSION_SET_LIST_H_
+#define INCLUDE_VERSION_SET_LIST_H_
 
 #include "Item.h"
 #include "Session.h"
-#include "Updateable.h"
-#include "GroupVersionDialog.h"
+#include "UpdateableWidget.h"
+#include "VersionSetDialog.h"
 
 #include <Wt/Dbo/Dbo.h>
 #include <Wt/WContainerWidget.h>
 
 using namespace Wt;
 
-class VersionsList : public WContainerWidget, public Updateable {
+class VersionSetList : public WContainerWidget, public UpdateableWidget {
   public:
-    VersionsList(Session &session);
+    VersionSetList(Session &session);
 
     void update() override;
 
   private:
     Session &session_;
-    std::unique_ptr<GroupVersionDialog> groupVersionDialog_;
+    std::unique_ptr<VersionSetDialog> groupVersionDialog_;
 };
 
-#endif // VERSIONS_LIST_H_
+#endif // INCLUDE_VERSION_SET_LIST_H_

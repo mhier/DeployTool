@@ -7,12 +7,12 @@
  * See the LICENSE file for terms of use.
  */
 
-#ifndef GROUP_LIST_H_
-#define GROUP_LIST_H_
+#ifndef INCLUDE_GROUP_LIST_H_
+#define INCLUDE_GROUP_LIST_H_
 
 #include "Item.h"
 #include "Session.h"
-#include "Updateable.h"
+#include "UpdateableWidget.h"
 #include "GroupDialog.h"
 
 #include <Wt/Dbo/Dbo.h>
@@ -20,7 +20,7 @@
 
 using namespace Wt;
 
-class GroupList : public WContainerWidget, public Updateable {
+class GroupList : public WContainerWidget, public UpdateableWidget {
   public:
     GroupList(Session &session);
 
@@ -31,4 +31,4 @@ class GroupList : public WContainerWidget, public Updateable {
     std::unique_ptr<GroupDialog> groupDialog_;
 };
 
-#endif // GROUP_LIST_H_
+#endif // INCLUDE_GROUP_LIST_H_

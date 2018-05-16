@@ -17,7 +17,7 @@
 #include <Wt/WComboBox.h>
 #include <Wt/WTable.h>
 
-ItemDialog::ItemDialog(Updateable *owner, Session &session, Wt::Dbo::ptr<Item> item)
+ItemDialog::ItemDialog(UpdateableWidget *owner, Session &session, Wt::Dbo::ptr<Item> item)
 : Wt::WDialog("Deploy Item"), session_(session), owner_(owner), item_(item)
 {
     contents()->addStyleClass("form-group");

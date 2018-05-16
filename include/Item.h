@@ -7,8 +7,8 @@
  * See the LICENSE file for terms of use.
  */
 
-#ifndef INCLUDE_DEPLOY_ITEM_H_
-#define INCLUDE_DEPLOY_ITEM_H_
+#ifndef INCLUDE_ITEM_H_
+#define INCLUDE_ITEM_H_
 
 #include <Wt/Dbo/Dbo.h>
 #include <Wt/Dbo/WtSqlTraits.h>
@@ -41,4 +41,4 @@ class Item {
 
 };
 
-#endif /* INCLUDE_DEPLOY_ITEM_H_ */
+#endif /* INCLUDE_ITEM_H_ */

@@ -31,7 +31,7 @@
 #include "Item.h"
 #include "Group.h"
 #include "GroupTemplate.h"
-#include "GroupVersion.h"
+#include "VersionSet.h"
 #include "InstanceVersion.h"
 #include "ItemInstance.h"
 
@@ -120,7 +120,7 @@ Session::Session() {
     session_.mapClass<AuthInfo::AuthTokenType>("auth_token");
     session_.mapClass<Group>("groups");
     session_.mapClass<GroupTemplate>("group_templates");
-    session_.mapClass<GroupVersion>("group_versions");
+    session_.mapClass<VersionSet>("group_versions");
     session_.mapClass<InstanceVersion>("instance_versions");
     session_.mapClass<Item>("items");
     session_.mapClass<KeyValue<Item>>("item_parameters");

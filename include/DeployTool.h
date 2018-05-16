@@ -7,8 +7,8 @@
  * See the LICENSE file for terms of use.
  */
 
-#ifndef DEPLOY_TOOL_H_
-#define DEPLOY_TOOL_H_
+#ifndef INCLUDE_DEPLOY_TOOL_H_
+#define INCLUDE_DEPLOY_TOOL_H_
 
 #include <Wt/WContainerWidget.h>
 #include <Wt/WMenu.h>
@@ -45,4 +45,4 @@ class DeployTool : public WContainerWidget {
     void clockOut();
 };
 
-#endif //DEPLOY_TOOL_H
+#endif //INCLUDE_DEPLOY_TOOL_H_

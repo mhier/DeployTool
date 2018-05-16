@@ -14,7 +14,7 @@
 #include <Wt/Dbo/WtSqlTraits.h>
 
 #include "ItemInstance.h"
-#include "GroupVersion.h"
+#include "VersionSet.h"
 
 class Group;
 
@@ -25,7 +25,7 @@ class GroupTemplate {
     std::string name;
     Wt::Dbo::collection< Wt::Dbo::ptr<ItemInstance> > deployItemInstances;
     Wt::Dbo::collection< Wt::Dbo::ptr<Group> > groups;
-    Wt::Dbo::collection< Wt::Dbo::ptr<GroupVersion> > allowedVersions;
+    Wt::Dbo::collection< Wt::Dbo::ptr<VersionSet> > allowedVersions;
 
     template<class Action>
     void persist ( Action& a ) {

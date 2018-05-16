@@ -7,12 +7,12 @@
  * See the LICENSE file for terms of use.
  */
 
-#ifndef DEPLOY_GROUP_LIST_H_
-#define DEPLOY_GROUP_LIST_H_
+#ifndef INCLUDE_GROUP_TEMPLATE_LIST_H_
+#define INCLUDE_GROUP_TEMPLATE_LIST_H_
 
 #include "Item.h"
 #include "Session.h"
-#include "Updateable.h"
+#include "UpdateableWidget.h"
 #include "GroupTemplateDialog.h"
 
 #include <Wt/Dbo/Dbo.h>
@@ -20,7 +20,7 @@
 
 using namespace Wt;
 
-class GroupTemplateList : public WContainerWidget, public Updateable {
+class GroupTemplateList : public WContainerWidget, public UpdateableWidget {
   public:
     GroupTemplateList(Session &session);
 
@@ -31,4 +31,4 @@ class GroupTemplateList : public WContainerWidget, public Updateable {
     std::unique_ptr<GroupTemplateDialog> groupDialog_;
 };
 
-#endif // DEPLOY_GROUP_LIST_H_
+#endif // INCLUDE_GROUP_TEMPLATE_LIST_H_

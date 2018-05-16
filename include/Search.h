@@ -12,7 +12,7 @@
 
 #include "Item.h"
 #include "Session.h"
-#include "Updateable.h"
+#include "UpdateableWidget.h"
 #include "VersionUpdateDialog.h"
 
 #include <Wt/Dbo/Dbo.h>
@@ -20,7 +20,7 @@
 
 using namespace Wt;
 
-class Search : public WContainerWidget, public Updateable {
+class Search : public WContainerWidget, public UpdateableWidget {
   public:
     Search(Session &session);
 

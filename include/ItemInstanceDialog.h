@@ -7,11 +7,11 @@
  * See the LICENSE file for terms of use.
  */
 
-#ifndef DEPLOY_ITEM_INSTANCE_DIALOG_H_
-#define DEPLOY_ITEM_INSTANCE_DIALOG_H_
+#ifndef INCLUDE_ITEM_INSTANCE_DIALOG_H_
+#define INCLUDE_ITEM_INSTANCE_DIALOG_H_
 
 #include "Session.h"
-#include "Updateable.h"
+#include "UpdateableWidget.h"
 #include "ItemInstance.h"
 
 #include <Wt/WDialog.h>
@@ -22,10 +22,10 @@ using namespace Wt;
 
 class ItemInstanceDialog : public WDialog {
   public:
-    ItemInstanceDialog(Updateable *owner, Session &session, Wt::Dbo::ptr<ItemInstance> instance);
+    ItemInstanceDialog(UpdateableWidget *owner, Session &session, Wt::Dbo::ptr<ItemInstance> instance);
 
     Session &session_;
-    Updateable *owner_;
+    UpdateableWidget *owner_;
     Wt::WComboBox *w_item;
     Wt::WTable *parameterTable_;
 
@@ -36,4 +36,4 @@ class ItemInstanceDialog : public WDialog {
 
 };
 
-#endif //DEPLOY_ITEM_INSTANCE_DIALOG_H_
+#endif //INCLUDE_ITEM_INSTANCE_DIALOG_H_

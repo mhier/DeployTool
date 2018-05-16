@@ -18,7 +18,7 @@
 #include <Wt/WCheckBox.h>
 
 Search::Search(Session &session)
-: Updateable(nullptr), session_(session)
+: session_(session)
 {
     update();
 }

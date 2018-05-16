@@ -23,7 +23,7 @@
 #include "DeployTool.h"
 #include "GroupList.h"
 #include "Search.h"
-#include "VersionsList.h"
+#include "VersionSetList.h"
 #include "GroupTemplateList.h"
 #include "ItemList.h"
 
@@ -70,7 +70,7 @@ void DeployTool::handleInternalPath(const std::string &internalPath) {
         contentStack_->addWidget( std::make_unique<Search>(session_) );
       }
       else if (internalPath == "/versions") {
-        contentStack_->addWidget( std::make_unique<VersionsList>(session_) );
+        contentStack_->addWidget( std::make_unique<VersionSetList>(session_) );
       }
       else if (internalPath == "/groups") {
         contentStack_->addWidget( std::make_unique<GroupList>(session_) );

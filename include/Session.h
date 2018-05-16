@@ -7,8 +7,8 @@
  * See the LICENSE file for terms of use.
  */
 
-#ifndef SESSION_H_
-#define SESSION_H_
+#ifndef INCLUDE_SESSION_H_
+#define INCLUDE_SESSION_H_
 
 #include <vector>
 
@@ -56,4 +56,4 @@ class Session {
     Auth::Login login_;
 };
 
-#endif //SESSION_H_
+#endif //INCLUDE_SESSION_H_

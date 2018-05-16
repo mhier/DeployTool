@@ -13,14 +13,14 @@
 #include <Wt/Dbo/Dbo.h>
 #include <Wt/Dbo/WtSqlTraits.h>
 
-class GroupVersion;
+class VersionSet;
 class ItemInstance;
 
 class InstanceVersion {
   public:
     InstanceVersion() {}
 
-    Wt::Dbo::collection< Wt::Dbo::ptr<GroupVersion> > groupVersion;
+    Wt::Dbo::collection< Wt::Dbo::ptr<VersionSet> > groupVersion;
     Wt::Dbo::collection< Wt::Dbo::ptr<ItemInstance> > itemInstance;
     std::string version;
 

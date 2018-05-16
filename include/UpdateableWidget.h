@@ -7,24 +7,21 @@
  * See the LICENSE file for terms of use.
  */
 
-#ifndef UPDATEABLE_H_
-#define UPDATEABLE_H_
+#ifndef INCLUDE_UPDATEABLE_WIDGET_H_
+#define INCLUDE_UPDATEABLE_WIDGET_H_
 
 #include "User.h"
 
-class Updateable {
+class UpdateableWidget {
 
   public:
 
-    Updateable(Wt::Dbo::ptr<User> forUser)
-    : forUser_(forUser) {}
+    UpdateableWidget() {}
 
-    virtual ~Updateable() {}
+    virtual ~UpdateableWidget() {}
 
     virtual void update() = 0;
 
-    Wt::Dbo::ptr<User> forUser_;
-
 };
 
-#endif // UPDATEABLE_H_
+#endif // INCLUDE_UPDATEABLE_WIDGET_H_

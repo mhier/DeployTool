@@ -21,7 +21,7 @@ class Group {
 
     std::string hostname;
     Wt::Dbo::ptr<GroupTemplate> groupTemplate;
-    Wt::Dbo::ptr<GroupVersion> groupVersionSet;
+    Wt::Dbo::ptr<VersionSet> groupVersionSet;
 
     template<class Action>
     void persist ( Action& a ) {

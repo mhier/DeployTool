@@ -17,7 +17,7 @@
 #include <Wt/WPushButton.h>
 
 GroupList::GroupList(Session &session)
-: Updateable(nullptr), session_(session)
+: session_(session)
 {
     update();
 }

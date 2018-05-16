@@ -17,7 +17,7 @@
 #include <Wt/WPushButton.h>
 
 ItemList::ItemList(Session &session)
-: session_(session), Updateable(nullptr)
+: session_(session)
 {
     update();
 }

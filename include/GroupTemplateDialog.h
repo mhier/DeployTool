@@ -7,11 +7,11 @@
  * See the LICENSE file for terms of use.
  */
 
-#ifndef DEPLOY_GROUP_DIALOG_H_
-#define DEPLOY_GROUP_DIALOG_H_
+#ifndef INCLUDE_GROUP_TEMPLATE_DIALOG_H_
+#define INCLUDE_GROUP_TEMPLATE_DIALOG_H_
 
 #include "Session.h"
-#include "Updateable.h"
+#include "UpdateableWidget.h"
 #include "GroupTemplate.h"
 #include "ItemInstanceDialog.h"
 
@@ -21,14 +21,14 @@
 
 using namespace Wt;
 
-class GroupTemplateDialog : public WDialog, public Updateable {
+class GroupTemplateDialog : public WDialog, public UpdateableWidget {
   public:
-    GroupTemplateDialog(Updateable *owner, Session &session, Wt::Dbo::ptr<GroupTemplate> group);
+    GroupTemplateDialog(UpdateableWidget *owner, Session &session, Wt::Dbo::ptr<GroupTemplate> group);
 
     void update() override;
 
     Session &session_;
-    Updateable *owner_;
+    UpdateableWidget *owner_;
 
     Wt::Dbo::ptr<GroupTemplate> group_;
 
@@ -36,4 +36,4 @@ class GroupTemplateDialog : public WDialog, public Updateable {
 
 };
 
-#endif // DEPLOY_GROUP_DIALOG_H_
+#endif // INCLUDE_GROUP_TEMPLATE_DIALOG_H_

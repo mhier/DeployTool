@@ -9,7 +9,7 @@
 
 #include <cmath>
 
-#include "GroupVersionDialog.h"
+#include "VersionSetDialog.h"
 
 #include <Wt/WPushButton.h>
 #include <Wt/WGridLayout.h>
@@ -17,13 +17,13 @@
 #include <Wt/WComboBox.h>
 #include <Wt/WTable.h>
 
-GroupVersionDialog::GroupVersionDialog(Updateable *owner, Session &session, Wt::Dbo::ptr<GroupVersion> groupVersion)
-: Wt::WDialog("Versions set"), Updateable(nullptr), session_(session), owner_(owner), groupVersion_(groupVersion)
+VersionSetDialog::VersionSetDialog(UpdateableWidget *owner, Session &session, Wt::Dbo::ptr<VersionSet> groupVersion)
+: Wt::WDialog("Versions set"), session_(session), owner_(owner), groupVersion_(groupVersion)
 {
     update();
 }
 
-void GroupVersionDialog::update() {
+void VersionSetDialog::update() {
     contents()->clear();
     footer()->clear();
 
@@ -35,7 +35,7 @@ void GroupVersionDialog::update() {
     bool createNew = false;
     if(groupVersion_.get() == nullptr) {
       createNew = true;
-      groupVersion_ = Wt::Dbo::ptr<GroupVersion>(std::make_unique<GroupVersion>());
+      groupVersion_ = Wt::Dbo::ptr<VersionSet>(std::make_unique<VersionSet>());
       session_.session_.add(groupVersion_);
     }
 

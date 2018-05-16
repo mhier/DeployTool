@@ -7,8 +7,8 @@
  * See the LICENSE file for terms of use.
  */
 
-#ifndef KEYVALUE_H
-#define KEYVALUE_H
+#ifndef INCLUDE_KEY_VALUE_H
+#define INCLUDE_KEY_VALUE_H
 
 #include <Wt/Dbo/Dbo.h>
 #include <Wt/Dbo/WtSqlTraits.h>
@@ -36,4 +36,4 @@ class KeyValue {
 template<typename OWNER>
 const std::string KeyValue<OWNER>::name = std::string("parameters_") + typeid(OWNER).name();
 
-#endif // KEYVALUE_H
+#endif // INCLUDE_KEY_VALUE_H
