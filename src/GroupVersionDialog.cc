@@ -78,6 +78,20 @@ void GroupVersionDialog::update() {
 
         versions_.push_back( table->elementAt(row,2)->addWidget(std::make_unique<WLineEdit>()) );
 
+        // search for the matching version. TODO: replace with proper database search
+        std::string version = "not set";
+        for(auto v : i->versions) {
+          for(auto gv : v->groupVersion) {
+            if(gv == groupVersion_) {
+              version = v->version;
+              goto found;
+            }
+          }
+        }
+found:
+
+        versions_.back()->setText(version);
+
         row++;
       }
     }
