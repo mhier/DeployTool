@@ -22,6 +22,7 @@
 #include "Session.h"
 #include "DeployTool.h"
 #include "GroupList.h"
+#include "Search.h"
 #include "VersionsList.h"
 #include "GroupTemplateList.h"
 #include "ItemList.h"
@@ -66,7 +67,7 @@ void DeployTool::handleInternalPath(const std::string &internalPath) {
     if(session_.login().loggedIn()) {
       contentStack_->clear();
       if (internalPath == "/search") {
-        contentStack_->addWidget( std::make_unique<GroupList>(session_) );
+        contentStack_->addWidget( std::make_unique<Search>(session_) );
       }
       else if (internalPath == "/versions") {
         contentStack_->addWidget( std::make_unique<VersionsList>(session_) );
@@ -120,7 +121,7 @@ void DeployTool::createMenu() {
     menu_->setInternalBasePath("/");
 
     menu_->addItem("Search")->setPathComponent("search");
-    menu_->addItem("Known versions")->setPathComponent("versions");
+    menu_->addItem("Versions sets")->setPathComponent("versions");
     menu_->addItem("Groups")->setPathComponent("groups");
     menu_->addItem("Group templates")->setPathComponent("templates");
     menu_->addItem("Items")->setPathComponent("items");

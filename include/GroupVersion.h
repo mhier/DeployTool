@@ -16,17 +16,21 @@
 #include "InstanceVersion.h"
 #include "GroupTemplate.h"
 
+class Group;
+
 class GroupVersion {
   public:
     GroupVersion() {}
 
     Wt::Dbo::collection< Wt::Dbo::ptr<InstanceVersion> > instanceVersions;
     Wt::Dbo::ptr<GroupTemplate> groupTemplate;
+    Wt::Dbo::collection< Wt::Dbo::ptr<Group> > groupVersionSet;
 
     template<class Action>
     void persist ( Action& a ) {
         Wt::Dbo::hasMany ( a, instanceVersions, Wt::Dbo::ManyToMany, "instanceVersions" );
         Wt::Dbo::belongsTo ( a, groupTemplate, "allowedVersions" );
+        Wt::Dbo::hasMany ( a, groupVersionSet, Wt::Dbo::ManyToOne, "groupVersionSet" );
     }
 
 };

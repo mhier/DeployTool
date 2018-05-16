@@ -21,11 +21,13 @@ class Group {
 
     std::string hostname;
     Wt::Dbo::ptr<GroupTemplate> groupTemplate;
+    Wt::Dbo::ptr<GroupVersion> groupVersionSet;
 
     template<class Action>
     void persist ( Action& a ) {
         Wt::Dbo::field ( a, hostname, "hostname" );
         Wt::Dbo::belongsTo ( a, groupTemplate, "groupTemplate" );
+        Wt::Dbo::belongsTo ( a, groupVersionSet, "groupVersionSet" );
     }
 
 };
