@@ -18,7 +18,7 @@
 #include <Wt/WTable.h>
 
 GroupTemplateDialog::GroupTemplateDialog(Updateable *owner, Session &session, Wt::Dbo::ptr<GroupTemplate> group)
-: Wt::WDialog("Deploy Group"), Updateable(nullptr), session_(session), owner_(owner), group_(group)
+: Wt::WDialog("Group template"), Updateable(nullptr), session_(session), owner_(owner), group_(group)
 {
     update();
 }
@@ -47,7 +47,7 @@ void GroupTemplateDialog::update() {
     auto w_name = grid->addWidget(std::make_unique<Wt::WLineEdit>(), 0, 1);
     w_name->setText(group_->name);
 
-    grid->addWidget(std::make_unique<Wt::WText>("Deploy Item Instances: "), 3, 0);
+    grid->addWidget(std::make_unique<Wt::WText>("Group content: "), 3, 0);
 
     auto table = grid->addWidget(std::make_unique<WTable>(), 3,1);
     table->setHeaderCount(1);
@@ -79,7 +79,7 @@ void GroupTemplateDialog::update() {
       row++;
     }
 
-    auto w_addparam = grid->addWidget(std::make_unique<Wt::WPushButton>("Add deploy item instance"), 4, 1);
+    auto w_addparam = grid->addWidget(std::make_unique<Wt::WPushButton>("Add item"), 4, 1);
     w_addparam->clicked().connect(this, [=] {
       Dbo::Transaction transaction(session_.session_);
       Wt::Dbo::ptr<ItemInstance> instance_(std::make_unique<ItemInstance>());

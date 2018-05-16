@@ -18,7 +18,7 @@
 #include <Wt/WTable.h>
 
 GroupDialog::GroupDialog(Updateable *owner, Session &session, Wt::Dbo::ptr<Group> group)
-: Wt::WDialog("Deploy Group"), Updateable(nullptr), session_(session), owner_(owner), group_(group)
+: Wt::WDialog("Group"), Updateable(nullptr), session_(session), owner_(owner), group_(group)
 {
     update();
 }

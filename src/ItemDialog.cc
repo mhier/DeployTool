@@ -18,7 +18,7 @@
 #include <Wt/WTable.h>
 
 ItemDialog::ItemDialog(Updateable *owner, Session &session, Wt::Dbo::ptr<Item> item)
-: Wt::WDialog("Deploy Item"), owner_(owner), session_(session), item_(item)
+: Wt::WDialog("Deploy Item"), session_(session), owner_(owner), item_(item)
 {
     contents()->addStyleClass("form-group");
 
@@ -57,7 +57,7 @@ ItemDialog::ItemDialog(Updateable *owner, Session &session, Wt::Dbo::ptr<Item> i
 
     auto &parameters = item_->parameters;
     for(const auto &p : parameters) {
-      size_t row = v_paramNames.size()+1;
+      int row = static_cast<int>(v_paramNames.size())+1;
       v_paramNames.push_back(table->elementAt(row, 0)->addWidget(std::make_unique<Wt::WLineEdit>()));
       v_paramValues.push_back(table->elementAt(row, 1)->addWidget(std::make_unique<Wt::WLineEdit>()));
       v_paramNames.back()->setText(p->key);
@@ -66,7 +66,7 @@ ItemDialog::ItemDialog(Updateable *owner, Session &session, Wt::Dbo::ptr<Item> i
 
     auto w_addparam = grid->addWidget(std::make_unique<Wt::WPushButton>("Add parameter"), 4, 1);
     w_addparam->clicked().connect(this, [=] {
-      size_t row = v_paramNames.size()+1;
+      int row = static_cast<int>(v_paramNames.size())+1;
       v_paramNames.push_back(table->elementAt(row, 0)->addWidget(std::make_unique<Wt::WLineEdit>()));
       v_paramValues.push_back(table->elementAt(row, 1)->addWidget(std::make_unique<Wt::WLineEdit>()));
     } );

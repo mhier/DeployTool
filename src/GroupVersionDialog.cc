@@ -18,7 +18,7 @@
 #include <Wt/WTable.h>
 
 GroupVersionDialog::GroupVersionDialog(Updateable *owner, Session &session, Wt::Dbo::ptr<GroupVersion> groupVersion)
-: Wt::WDialog("Group Versions"), Updateable(nullptr), session_(session), owner_(owner), groupVersion_(groupVersion)
+: Wt::WDialog("Versions set"), Updateable(nullptr), session_(session), owner_(owner), groupVersion_(groupVersion)
 {
     update();
 }
